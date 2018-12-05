@@ -1,0 +1,4 @@
+At this point: ENDED MODULE 3
+* Prisma set up
+* GraphQL Yoga set up
+* React in Next.JS set up
