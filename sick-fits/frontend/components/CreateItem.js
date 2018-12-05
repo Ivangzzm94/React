@@ -3,13 +3,15 @@ import { Mutation } from 'react-apollo';
 import Form from './styles/Form';
 import gql from 'graphql-tag';
 import formatMoney from '../lib/formatMoney';
+import Error from './ErrorMessage';
+import Router from 'next/router';
 
 const CREATE_ITEM_MUTATION = gql`
     mutation CREATE_ITEM_MUTATION (
         $title: String!
-        $description: Stirng!
+        $description: String!
         $price: Int!
-        $image: Stirng
+        $image: String
         $largeImage: String
     ) {
         createItem(
@@ -39,18 +41,30 @@ class CreateItem extends Component {
         this.setState({ [name]: val}); // [name] is refering title, price , description, etc.
     };
 
+    // Apollo turn loadings on and off
 
     render() {
         return (
             <Mutation mutation={CREATE_ITEM_MUTATION} variables = {this.state}>
                 {(createItem, {loading, error}) => (
 
-            <Form onSubmit={(event) => {
-                event.preventDefault(); //stop form to submit
-                console.log(this.state);
+            <Form 
+                onSubmit={async event => {
+                    //stop form to submiting
+                    event.preventDefault(); 
+                    //call the mutation
+                    const res = await createItem();
+                    //change theem to the single item page
+                    
+                    console.log(res);
+                    Router.push({
+                        pathname: '/item',
+                        query: { id: res.data.createItem.id }
+                    })
                 }}
             >
-                <fieldset>
+                <Error error={error}/>
+                <fieldset disabled={loading} aria-busy={loading}>
                     <label htmlFor="title">
                         Title
                         <input 
