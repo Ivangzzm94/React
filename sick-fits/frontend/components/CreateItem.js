@@ -41,6 +41,27 @@ class CreateItem extends Component {
         this.setState({ [name]: val}); // [name] is refering title, price , description, etc.
     };
 
+    uploadFile = async event => {
+        console.log('uploading file...');
+        const files = event.target.files;
+        const data = new FormData();
+        // first item selected
+        data.append('file', files[0]);
+        //this is for cloudinary
+        data.append('upload_preset', 'sick-fits');
+
+        const res = await fetch('https://api.cloudinary.com/v1_1/dsqwgzfb5/image/upload', {
+            method: 'POST',
+            body: data
+        });
+        const file = await res.json();
+        console.log(file);
+        this.setState({
+            image: file.secure_url,
+            largeImage: file.eager[0].secure_url
+        });
+    };
+
     // Apollo turn loadings on and off
 
     render() {
@@ -60,11 +81,25 @@ class CreateItem extends Component {
                     Router.push({
                         pathname: '/item',
                         query: { id: res.data.createItem.id }
-                    })
+                    });
                 }}
             >
-                <Error error={error}/>
+                <Error error={error} />
                 <fieldset disabled={loading} aria-busy={loading}>
+                    <label htmlFor="file">
+                        Image
+                        <input 
+                        type="file" 
+                        id="file" 
+                        name="file" 
+                        placeholder="Upload an image" 
+                        required
+                        //every time we click choose file is gona trigger uploadingFile...
+                        onChange={this.uploadFile}
+                        />
+                        {this.state.image && <img src= {this.state.image} alt="Upload Preview"/>}
+                    </label>
+                    
                     <label htmlFor="title">
                         Title
                         <input 
