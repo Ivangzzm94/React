@@ -2,8 +2,12 @@
 
 type Mutation {
     createItem(title: String, description: String, price: Int, image: String, largeImage: String): Item!
+    updateItem(id: ID!, title: String, description: String, price: Int): Item!
 }
 
 type Query {
+    #pull the existing information of an item
     items: [Item]!
+    #ItemWhereUniqueInput comes from prisma.graphql
+    item(where: ItemWhereUniqueInput!): Item
 }

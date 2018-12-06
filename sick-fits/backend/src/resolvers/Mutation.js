@@ -2,23 +2,39 @@ const Mutations = {
     async createItem(parent, args, ctx, info) {
         //TODO: Check if they are logged in
         //access context of ./createServer
-        const item = await ctx.db.mutation.createItem({
+        const item = await ctx.db.mutation.createItem(
+        {
             data: {
-                ...args
+                ...args,
             },
-        }, info);
+        }, 
+        info
+    );
 
-        //console.log(item);
+        console.log(item);
 
         return item;
-    }
-    // createDog(parent, args, ctx, info) {
-    //     global.dogs = global.dogs || [];
-    //     // create a dog
-    //     const newDog = { name: args.name };
-    //     global.dogs.push(newDog);
-    //     return newDog;
-    // }
+    },
+    updateItem(parent, args, ctx, info) {
+        // first take a copy of the updates
+        const updates = {...args};
+        // remove the id from the updates
+        delete updates.id;
+        // run the update method
+        // ctx -> context in the request
+        // db => how we expose the actual prisma database to ourselves
+        //query/mutation
+        //access to all query/mutations generated
+        return ctx.db.mutation.updateItem({
+            data: updates,
+            where: {
+                id: args.id
+            },
+        }, 
+        info //this contains the query we sent throwght client side
+        );
+        return item;
+    },
 };
 
 module.exports = Mutations;
