@@ -46,7 +46,7 @@ const Mutations = {
         // 3. Delete it!
         return ctx.db.mutation.deleteItem({ where }, info);
     },
-    async signup(parent, args, ctx, info) {
+    async singup(parent, args, ctx, info) {
         // Lowercase the email
         args.email = args.email.toLowerCase();
         // Hash the password
