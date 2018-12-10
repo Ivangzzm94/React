@@ -8,7 +8,7 @@ type Mutation {
 
 type Query {
     #pull the existing information of an item
-    items: [Item]!
+    items(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, first: Int): [Item]!
     #ItemWhereUniqueInput comes from prisma.graphql
     item(where: ItemWhereUniqueInput!): Item
     itemsConnection(where: ItemWhereInput): ItemConnection!
