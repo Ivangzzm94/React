@@ -1,8 +1,21 @@
 #schema for Prisma and the database that lives underneath Prisma
+enum Permission {
+    ADMIN
+    USER
+    ITEMCREATE
+    ITEMUPDATE
+    ITEMDELETE
+    PERMISSIONUPDATE
+}
+
 type User {
     id: ID! @unique
     name: String!
-    email: String!
+    email: String! @unique
+    password: String!
+    resetToken: String
+    resetTokenExpiry: Float
+    permissions: [Permission]
 }
 
 type Item {
