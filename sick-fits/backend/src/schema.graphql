@@ -1,4 +1,5 @@
 # import * from './generated/prisma.graphql'
+# our yoga
 
 type SuccessMessage {
     message: String
@@ -11,6 +12,8 @@ type Mutation {
     singup(email: String!, password: String!, name: String!): User!
     signin(email: String!, password: String!): User!
     signout: SuccessMessage
+    requestReset(email: String!): SuccessMessage
+    resetPassword(resetToken: String!, password: String!, confirmPassword: String!): User!
 }
 
 type Query {
@@ -22,4 +25,12 @@ type Query {
     #Takes in the jsonwebtoken cookie and parser it for us
     #Passed along with the request
     me: User
+}
+
+#redefine our users
+type User {
+    id: ID!
+    name: String!
+    email: String!
+    permissions: [Permission!]!
 }
