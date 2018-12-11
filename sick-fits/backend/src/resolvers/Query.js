@@ -5,10 +5,17 @@ const Query = {
     items: forwardTo('db'),
     item: forwardTo('db'),
     itemsConnection: forwardTo('db'),
-    // async items(parent, args, ctx, info) {
-    //     const items = await ctx.db.query.items();
-    //     return items;
-    // },
+    //Same as me: function(parent,args,ctx,info)
+    me(parent, args, ctx, info) {
+        //Check if there is a current userId
+        if(!ctx.request.userId) {
+            return null;
+        } 
+        //returning a promise
+        return ctx.db.query.user({
+            where: {id: ctx.request.userId}
+        }, info);
+    },
 };
 
 module.exports = Query;

@@ -13,4 +13,7 @@ type Query {
     #ItemWhereUniqueInput comes from prisma.graphql
     item(where: ItemWhereUniqueInput!): Item
     itemsConnection(where: ItemWhereInput): ItemConnection!
+    #Takes in the jsonwebtoken cookie and parser it for us
+    #Passed along with the request
+    me: User
 }
