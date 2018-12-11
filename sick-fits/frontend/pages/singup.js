@@ -1,5 +1,6 @@
 import Singup from '../components/Singup';
 import Signin from '../components/Signin';
+import RequestReset from '../components/RequestReset';
 import styled from 'styled-components';
 
 const Columns = styled.div`
@@ -12,6 +13,7 @@ const SingupPage = props => (
     <Columns>
         <Singup />
         <Signin />
+        <RequestReset />
     </Columns>
 );
 
