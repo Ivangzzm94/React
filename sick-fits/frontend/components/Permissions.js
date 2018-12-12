@@ -26,8 +26,7 @@ query {
 
 const Permissions = props => (
 <Query query={ALL_USERS_QUERY}>
-    {({ data, loading, error }) => 
-    console.log(data) || (
+    {({ data, loading, error }) => (
         <div>
             <Error error={error} />
             <div>
@@ -41,7 +40,7 @@ const Permissions = props => (
                             <th>√</th>
                         </tr>
                     </thead>
-                    <tbody>{data.users.map(user => user.name)}
+                    <tbody>{data.users.map(user => <User user={user} />)}
                     </tbody>
                 </Table>
             </div>
@@ -49,5 +48,28 @@ const Permissions = props => (
     )}
 </Query>
 );
+
+class User extends React.Component {
+    render() {
+        const user = this.props.user;
+        return (
+            <tr>
+            <td>{user.name}</td>
+            <td>{user.email}</td>
+            {possiblePermissions.map(permission => (
+                <td>
+                <label htmlFor={`${user.id}-permission-${permission}`}>
+                    <input type="checkbox" />
+                </label>
+                </td>
+            ))}
+            <td>
+                <SickButton>Update</SickButton>
+            </td>
+            </tr>
+        );
+    }
+}
+
 
 export default Permissions;
