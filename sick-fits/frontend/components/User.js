@@ -20,7 +20,8 @@ const User = props => (
     </Query>
 );
 
-User.PropTypes = {
+//propety is lowerCase p, Package is Capital P (PropTypes)
+User.propTypes = {
     children: PropTypes.func.isRequired,
 }
 
